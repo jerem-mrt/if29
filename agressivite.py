@@ -43,3 +43,7 @@ for profile in profiles:
         profiles[profile]['agressivity'] = (profiles[profile]['frequenceTweet'] + profiles[profile]['outgoing_link']) / 350
     else :
         profiles[profile]['agressivity'] = profiles[profile]['outgoing_link'] / 350
+
+# On enregistre les résultats dans MangoDB
+for profile in profiles :
+    db.user.insert_one({"id" : profile, "outgoing_link" : profiles[profile]["outgoing_link"], "frequenceTweet" : profiles[profile]["frequenceTweet"], "agressivity" : profiles[profile]["agressivity"]})
