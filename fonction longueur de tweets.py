@@ -1,8 +1,26 @@
-import pymongo
+from pymongo import MongoClient
+import numpy as np
+from pprint import pprint
 
-myclient = pymongo.MongoClient("mongodb://localhost:27017/");
-mydb = myclient['projet'];
-mycol = mydb["tweet"];
+client = MongoClient('localhost', 27017)
+db = client.projet
+collection = db["Tweets"]
 
-for x in mycol.find({},):
-	#pour chaque profil, compte le nombre de caractères moyens dans les tweets et en fait la moyenne
+pipeline = [
+	{"$group" : {"_id" : "$user.id", "nb_caractere" : {"$avg" : {"$strLenCP" : "$text"}}}}
+]
+list(db.collection.aggregate(pipeline))
+
+# db.getCollection("Tweets").aggregate(
+#    [
+#      {    $group : {
+#         "_id" : "$user.id",
+#         "nb_caractere" : { $avg: {  $strLenCP: "$text"  }}
+#         }
+#     },
+#     {    $sort : {
+#         "nb_caractere" : 1
+#         }
+#     }
+#    ]
+# )
