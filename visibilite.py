@@ -11,42 +11,53 @@ tweet = db.tweet
 
 #lien avec la collection user
 user = db.user
-
-i=0
-n=0
 taille_moy_mention = 11.4
 float(taille_moy_mention)
 taille_moy_tag = 11.6
 float(taille_moy_tag)
-user_id_meme=5549
-n=0
+last_user=0
 moyenne_visibilite=0
+i=0
+##
+##pipeline=[{"$sort" : {"user.id" : 1}}]
+##liste = list(db.tweet.aggregate(pipeline,allowDiskUse=True))
+#On récupère l'ensempble des tweet
+tweets = db.tweet.find()
 
-
-#récupération nombre de # et de mention 
-for x in tweet.find({},{"entities.hashtags":1,"entities.user_mentions":1, "_id":0, "user.id":1}).sort("user.id",1):
-    print("Tweet numero %d"%(i))
-    i+=1
-    print("Nombre de hashtags : ")
-    tag_tweet = len(x.get("entities").get("hashtags"))
-    float(tag_tweet)
-    print(tag_tweet)
-    print("Nombre de mentions : ")
-    mention_tweet = len(x.get("entities").get("user_mentions"))
-    float(mention_tweet)
-    print(mention_tweet)
-    #calcul de la visibilité
-    print("Visibilité du tweet : ")
-    visibilite = (mention_tweet * taille_moy_mention + tag_tweet * taille_moy_tag)/140
-    print(visibilite)
+#On va stocker les données dont on a besoin dans stock
+stock ={}
+nb_tweet = 0
+#récupération nombre de # et de mention par tweet et stockage dans stock
+for x in tweets : 
     #récupération de l'id de l'utilisateur
     user_id = x.get("user").get("id")
-    print(user_id)
-    if user_id==user_id_meme:
-        n=n+1
-        user_id_meme = user_id
-        moyenne_vibilite = (visibilite + moyenne_visibilite)/n
-        user.insert_many({'id':user_id , "visibilite":moyenne_vibilite})
-        print('done')
-    else:
-        print('user suivant')
+    tag_tweet = len(x.get("entities").get("hashtags"))
+    float(tag_tweet)
+    mention_tweet = len(x.get("entities").get("user_mentions"))
+    float(mention_tweet)
+    if user_id not in stock :
+        nb_tweet = 1
+        stock[x['user']['id']]={}
+        stock[x['user']['id']]['tag_tweet']=tag_tweet
+        stock[x['user']['id']]['mention_tweet']=mention_tweet
+        stock[x['user']['id']]['nb_tweet']=nb_tweet
+    else :
+        stock[x['user']['id']]['nb_tweet']=stock[x['user']['id']]['nb_tweet'] +1
+        stock[x['user']['id']]['tag_tweet']= stock[x['user']['id']]['tag_tweet'] + tag_tweet
+        stock[x['user']['id']]['mention_tweet'] = stock[x['user']['id']]['mention_tweet'] + mention_tweet
+
+print("stock rempli")
+
+# On détermine la visibilité de chacun des profiles
+for y in stock:
+    # S'il y a plus d'un tweet de retenu, on additionne la visibilité et on divise par le nombre de tweet
+    n = stock[y]['nb_tweet']
+    if n>1:
+        stock[y]['visibilite_moy'] = (((stock[y]['tag_tweet']*taille_moy_mention)+(stock[y]['tag_tweet'] * taille_moy_tag))/140)/stock[y]['nb_tweet']
+        
+    else :
+        stock[y]['visibilite_moy'] = (stock[y]['mention_tweet'] * taille_moy_mention + stock[y]['tag_tweet'] * taille_moy_tag)/140
+
+# On enregistre les résultats dans MongoDB
+for y in stock :
+    db.user.insert_one({"_id" : y, "tag_tweet" : stock[y]['tag_tweet'], "mention_tweet" : stock[y]['mention_tweet'], "visibilite_moy" : stock[y]['visibilite_moy']})
