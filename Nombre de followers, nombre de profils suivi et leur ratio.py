@@ -1,19 +1,36 @@
 # -*- coding: cp1252 -*-
 import pymongo
 
-myclient = pymongo.MongoClient("mongodb://localhost:27017/");
-mydb = myclient['projet'];
-mycol = mydb["tweet"];
-i=0;
-for x in mycol.find({},{"user.followers_count":1, "user.friends_count":1, "_id":0}):
-    print"Tweet numero %d"%(i);
-    i+=1
-    print("Nombre de compte suivis : ")
-    print(x.get("user").get("followers_count"));
-    print("Nombre de followers : ")
-    print(x.get("user").get("friends_count"));
-    print("Ratio :");
-    if (x.get("user").get("friends_count")!=0):
-        print(x.get("user").get("followers_count")/x.get("user").get("friends_count"));
+#lien avec MongoDB
+client = pymongo.MongoClient("mongodb://localhost:27017/");
+db = client['projet'];
+
+#lien avec collection tweet
+tweet = db["tweet"];
+
+#lien avec collection user
+user = db["user"];
+
+#initalisation des variables
+stock={};
+for x in tweet.find({},{"user.followers_count":1, "user.friends_count":1, "user.id":1, "_id":0}):
+    utilisateur=x.get("user").get("id")
+    #Nombre de compte suivis 
+    nbComptesSuivis=x.get("user").get("followers_count");
+    #Nombre de followers
+    nbFollowers=x.get("user").get("friends_count");
+    #ratio
+    if (nbFollowers != 0) : 
+        ratio=nbComptesSuivis/nbFollowers;
     else :
-        print("division par 0")
+        ratio=0
+    #ajoute dans user
+    if not user.find({"_id": utilisateur}):
+        print(utilisateur)
+        db.user.insert_one({"_id" : utilisateur, "nbFollowers" : nbFollowers, "nbComptesSuivis" : nbComptesSuivis, "ratio" : ratio})
+    else :
+        db.user.update_one({"_id" : utilisateur},{"$set":{ "nbFollowers" : nbFollowers, "nbComptesSuivis" : nbComptesSuivis, "ratio" : ratio}})
+ 
+    
+
+    
