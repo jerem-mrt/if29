@@ -7,17 +7,16 @@ from sklearn.cluster import DBSCAN
 # #############################################################################
 #Lien avec la collection user
 client = pymongo.MongoClient("mongodb://localhost:27017/");
-db = client['projet'];
+db = client['if29'];
 user = db["user"];
 X=[]
-for info in user.find({},{"ratio":1, "_id":0, "visibilite_moy":1}):
-    x=[[info.get("ratio"), info.get("visibilite_moy")]]
+for info in user.find({},{"agressivity":1, "_id":0, "visibilite_moy":1}):
+    x=[[info.get("agressivity"), info.get("visibilite_moy")]]
     X=X+x
-X=np.array(X) 
-print(X[0, :])
+X=np.array(X)
 # #############################################################################
 # Compute DBSCAN
-db = DBSCAN(eps=0.3, min_samples=10).fit(X)
+db = DBSCAN(eps=0.3, min_samples=10).fit(X)             #TODO décider de eps
 #Definition of the core points
 core_samples_mask = np.zeros_like(db.labels_, dtype=bool)
 core_samples_mask[db.core_sample_indices_] = True
@@ -43,7 +42,7 @@ for k, col in zip(unique_labels, colors):
     if k == -1:
         # Black used for noise.
         col = [0, 0, 0, 1]
-
+        
     class_member_mask = (labels == k)
 
     xy = X[class_member_mask & core_samples_mask]
