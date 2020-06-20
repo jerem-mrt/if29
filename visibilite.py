@@ -60,4 +60,4 @@ for y in stock:
 
 # On enregistre les résultats dans MongoDB
 for y in stock :
-    db.user.insert_one({"_id" : y, "tag_tweet" : stock[y]['tag_tweet'], "mention_tweet" : stock[y]['mention_tweet'], "visibilite_moy" : stock[y]['visibilite_moy']})
+    db.user.update_one({"_id" : y},{"$set": { "tag_tweet" : stock[y]['tag_tweet'], "mention_tweet" : stock[y]['mention_tweet'], "visibilite_moy" : stock[y]['visibilite_moy']}})

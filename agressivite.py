@@ -46,4 +46,4 @@ for profile in profiles:
 
 # On enregistre les résultats dans MangoDB
 for profile in profiles :
-    db.user.insert_one({"id" : profile, "outgoing_link" : profiles[profile]["outgoing_link"], "frequenceTweet" : profiles[profile]["frequenceTweet"], "agressivity" : profiles[profile]["agressivity"]})
+    db.user.insert_one({"_id" : profile, "outgoing_link" : profiles[profile]["outgoing_link"], "frequenceTweet" : profiles[profile]["frequenceTweet"], "agressivity" : profiles[profile]["agressivity"]})
