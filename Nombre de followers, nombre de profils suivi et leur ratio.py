@@ -3,7 +3,7 @@ import pymongo
 
 #lien avec MongoDB
 client = pymongo.MongoClient("mongodb://localhost:27017/");
-db = client['projet'];
+db = client['if29'];
 
 #lien avec collection tweet
 tweet = db["tweet"];
@@ -21,12 +21,11 @@ for x in tweet.find({},{"user.followers_count":1, "user.friends_count":1, "user.
     nbFollowers=x.get("user").get("friends_count");
     #ratio
     if (nbFollowers != 0) : 
-        ratio=nbComptesSuivis/nbFollowers;
+        ratio=float(nbComptesSuivis)/float(nbFollowers);
     else :
         ratio=0
     #ajoute dans user
-    if not user.find({"_id": utilisateur}):
-        print(utilisateur)
+    if not user.find_one({"_id": utilisateur}):
         db.user.insert_one({"_id" : utilisateur, "nbFollowers" : nbFollowers, "nbComptesSuivis" : nbComptesSuivis, "ratio" : ratio})
     else :
         db.user.update_one({"_id" : utilisateur},{"$set":{ "nbFollowers" : nbFollowers, "nbComptesSuivis" : nbComptesSuivis, "ratio" : ratio}})
