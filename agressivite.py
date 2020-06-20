@@ -38,12 +38,17 @@ for profile in profiles:
                 profiles[profile]['frequenceTweet'] = profiles[profile]['frequenceTweet'] + 2
             profiles[profile]['frequenceTweet'] = profiles[profile]['frequenceTweet'] + (int(timestamp[i]) - int(timestamp[i + 1]))
         #On convertit l'écart en ms en écart en heure
-        frequence = profiles[profile]['frequenceTweet'] / 3600000
-        profiles[profile]['frequenceTweet'] = (len(timestamp)-1) / frequence
-        profiles[profile]['agressivity'] = (profiles[profile]['frequenceTweet'] + profiles[profile]['outgoing_link']) / 350
+        frequence = float(profiles[profile]['frequenceTweet']) / float(3600000)
+        profiles[profile]['frequenceTweet'] = float((len(timestamp)-1)) / float(frequence)
+        profiles[profile]['agressivity'] = float((profiles[profile]['frequenceTweet'] + profiles[profile]['outgoing_link'])) / float(350)
     else :
-        profiles[profile]['agressivity'] = profiles[profile]['outgoing_link'] / 350
+        profiles[profile]['agressivity'] = float(profiles[profile]['outgoing_link']) / float(350)
 
 # On enregistre les résultats dans MangoDB
 for profile in profiles :
-    db.user.insert_one({"_id" : profile, "outgoing_link" : profiles[profile]["outgoing_link"], "frequenceTweet" : profiles[profile]["frequenceTweet"], "agressivity" : profiles[profile]["agressivity"]})
+    if not db.user.find_one({"_id": profile}):
+        db.user.insert_one({"_id" : profile, "outgoing_link" : profiles[profile]["outgoing_link"], "frequenceTweet" : profiles[profile]["frequenceTweet"], "agressivity" : profiles[profile]["agressivity"]})
+    else :
+        db.user.update_one({"_id" : profile},{"$set" : {"outgoing_link" : profiles[profile]["outgoing_link"], "frequenceTweet" : profiles[profile]["frequenceTweet"], "agressivity" : profiles[profile]["agressivity"]}})
+ 
+        
