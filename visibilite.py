@@ -28,7 +28,7 @@ tweets = db.tweet.find()
 stock ={}
 nb_tweet = 0
 #récupération nombre de # et de mention par tweet et stockage dans stock
-for x in tweets : 
+for x in tweets :
     #récupération de l'id de l'utilisateur
     user_id = x.get("user").get("id")
     tag_tweet = len(x.get("entities").get("hashtags"))
@@ -54,7 +54,7 @@ for y in stock:
     n = stock[y]['nb_tweet']
     if n>1:
         stock[y]['visibilite_moy'] = (((stock[y]['tag_tweet']*taille_moy_mention)+(stock[y]['tag_tweet'] * taille_moy_tag))/140)/stock[y]['nb_tweet']
-        
+
     else :
         stock[y]['visibilite_moy'] = (stock[y]['mention_tweet'] * taille_moy_mention + stock[y]['tag_tweet'] * taille_moy_tag)/140
 
@@ -65,4 +65,3 @@ for y in stock :
         db.user.insert_one({"_id" : y, "tag_tweet" : stock[y]['tag_tweet'], "mention_tweet" : stock[y]['mention_tweet'], "visibilite_moy" : stock[y]['visibilite_moy']})
     else :
         db.user.update_one({"_id" : y},{"$set": {"tag_tweet" : stock[y]['tag_tweet'], "mention_tweet" : stock[y]['mention_tweet'], "visibilite_moy" : stock[y]['visibilite_moy']}})
- 
