@@ -53,10 +53,10 @@ for y in stock:
     # S'il y a plus d'un tweet de retenu, on additionne la visibilité et on divise par le nombre de tweet
     n = stock[y]['nb_tweet']
     if n>1:
-        stock[y]['visibilite_moy'] = (((stock[y]['tag_tweet']*taille_moy_mention)+(stock[y]['tag_tweet'] * taille_moy_tag))/140)/stock[y]['nb_tweet']
+        stock[y]['visibilite_moy'] = float((float(((stock[y]['tag_tweet']*taille_moy_mention)+(stock[y]['tag_tweet'] * taille_moy_tag)))/140))/stock[y]['nb_tweet']
 
     else :
-        stock[y]['visibilite_moy'] = (stock[y]['mention_tweet'] * taille_moy_mention + stock[y]['tag_tweet'] * taille_moy_tag)/140
+        stock[y]['visibilite_moy'] = float((stock[y]['mention_tweet'] * taille_moy_mention + stock[y]['tag_tweet'] * taille_moy_tag))/140
 
 # On enregistre les résultats dans MongoDB
 for y in stock :
