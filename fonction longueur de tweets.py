@@ -17,7 +17,7 @@ user = db.user
 pipeline = [
 	{"$group" : {"_id" : "$user.id", "nb_caractere" : {"$avg" : {"$strLenCP" : "$text"}}}}
 ]
-longueurs = list(tweet.aggregate(pipeline))
+longueurs = list(tweet.aggregate(pipeline,allowDiskUse=True))
 
 #on enregistre le résultat dans mongodb
 for longueur in longueurs:
