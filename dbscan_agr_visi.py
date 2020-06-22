@@ -2,6 +2,7 @@ import numpy as np
 import pymongo
 
 from sklearn.cluster import DBSCAN
+from sklearn.preprocessing import scale
 
 
 # #############################################################################
@@ -14,10 +15,11 @@ utilisateurs=[]
 for info in user.find({},{"agressivity":1, "_id":1, "visibilite_moy":1}):
     x=[[info.get("agressivity"), info.get("visibilite_moy")]]
     X=X+x
+    #we want to keep the id of the user to put the labels back in mongoDB for a supervised algorithm
     utilisateur=[info.get("_id")]
     utilisateurs=utilisateurs+utilisateur
 X=np.array(X)
-utilisateurs=np.array(utilisateurs)
+
 # #############################################################################
 # Compute DBSCAN
 db = DBSCAN(eps=0.3, min_samples=10).fit(X)             #TODO décider de eps

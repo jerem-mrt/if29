@@ -17,14 +17,13 @@ user = db.user
 pipeline = [
 	{"$group" : {"_id" : "$user.id", "nb_caractere" : {"$avg" : {"$strLenCP" : "$text"}}}}
 ]
-longueurs = list(db.collection.aggregate(pipeline))
-
+longueurs = list(db.tweet.aggregate(pipeline))
 #on enregistre le résultat dans mongodb
 for longueur in longueurs:
 	if not db.user.find_one({"_id": longueur}):
-		db.user.insert_one({"_id" : longueur,"nb_caractere" : longueurs[longueur]["nb_caractere"]})
+                db.user.insert_one({"_id" : longueur,"nb_caractere" : longueurs[longueur]["nb_caractere"]})
 	else:
-		db.user.update_one({"_id" : longueur},{"$set" : {"nb_caractere" : longueurs[longueur]["nb_caractere"]}})
+                db.user.update_one({"_id" : longueur},{"$set" : {"nb_caractere" : longueurs[longueur]["nb_caractere"]}})
 
 
 
