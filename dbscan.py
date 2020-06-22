@@ -10,10 +10,14 @@ client = pymongo.MongoClient("mongodb://localhost:27017/");
 db = client['if29'];
 user = db["user"];
 X=[]
-for info in user.find({},{"agressivity":1, "_id":0, "visibilite_moy":1}):
+utilisateurs=[]
+for info in user.find({},{"agressivity":1, "_id":1, "visibilite_moy":1}):
     x=[[info.get("agressivity"), info.get("visibilite_moy")]]
     X=X+x
+    utilisateur=[info.get("_id")]
+    utilisateurs=utilisateurs+utilisateur
 X=np.array(X)
+utilisateurs=np.array(utilisateurs)
 # #############################################################################
 # Compute DBSCAN
 db = DBSCAN(eps=0.3, min_samples=10).fit(X)             #TODO décider de eps
@@ -22,6 +26,10 @@ core_samples_mask = np.zeros_like(db.labels_, dtype=bool)
 core_samples_mask[db.core_sample_indices_] = True
 #label of the clusters
 labels = db.labels_
+for ind in range(len(labels)) :
+    utilisateur=int(utilisateurs[ind])
+    user.update_one({"_id": utilisateur},{"$set" :{"label_agr_visi" : int(labels[ind])}})
+
 # Number of clusters in labels, ignoring noise if present.
 n_clusters_ = len(set(labels)) - (1 if -1 in labels else 0) 
 n_noise_ = list(labels).count(-1)
@@ -49,6 +57,6 @@ for k, col in zip(unique_labels, colors):
     plt.plot(xy[:, 0], xy[:, 1], 'o', markerfacecolor=tuple(col),
              markeredgecolor='k')
 
-
+#plotting graph
 plt.title('Estimated number of clusters: %d' % n_clusters_)
 plt.show()
