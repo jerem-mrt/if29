@@ -30,6 +30,7 @@ for profile in profiles:
     profiles[profile]['timestamp'].sort(reverse=True)
     timestamp = np.array(profiles[profile]['timestamp'])
     profiles[profile]['frequenceTweet'] = 0
+    profiles[profile]['frequenceOutgoingLink'] = 0
     # S'il y a plus d'un tweet de retenu, on additionne les écarts entre chaque tweet
     if len(timestamp) > 1:
         for i in range(0, len(timestamp)-1):
@@ -40,9 +41,10 @@ for profile in profiles:
         #On convertit l'écart en ms en écart en heure
         frequence = float(profiles[profile]['frequenceTweet']) / float(3600000)
         profiles[profile]['frequenceTweet'] = float((len(timestamp)-1)) / float(frequence)
-        profiles[profile]['agressivity'] = float((profiles[profile]['frequenceTweet'] + profiles[profile]['outgoing_link'])) / float(350)
+        profiles[profile]['frequenceOutgoingLink'] = float(profiles[profile]['outgoing_link']) / float(frequence)
+        profiles[profile]['agressivity'] = float((profiles[profile]['frequenceTweet'] + profiles[profile]['frequenceOutgoingLink'])) / float(350)
     else :
-        profiles[profile]['agressivity'] = float(profiles[profile]['outgoing_link']) / float(350)
+        profiles[profile]['agressivity'] = 0
 
 # On enregistre les résultats dans MangoDB
 for profile in profiles :
