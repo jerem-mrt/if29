@@ -21,7 +21,7 @@ for info in user.find({},{"agressivity":1, "_id":1, "visibilite_moy":1}):
 X=np.array(X)
 # #############################################################################
 # Compute DBSCAN
-db = DBSCAN(eps=0.2, min_samples=6).fit(X)             
+db = DBSCAN(eps=0.2, min_samples=5).fit(X)             
 #Definition of the core points
 core_samples_mask = np.zeros_like(db.labels_, dtype=bool)
 core_samples_mask[db.core_sample_indices_] = True
