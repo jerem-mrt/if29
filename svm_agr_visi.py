@@ -2,7 +2,7 @@ from sklearn import svm
 from pymongo import MongoClient
 import numpy as np
 import pprint
-import matplotlib as plt
+import matplotlib.pyplot as plt
 
 # Lien avec MongoDB
 client = MongoClient("localhost",27017)
@@ -27,10 +27,11 @@ a = -w[0] / w[1]
 
 xx = np.linspace(0,12)
 yy = a * xx - clf.intercept_[0] / w[1]
-print(type(xx))
-print(type(yy))
+
+#séparateur
 h0 = plt.plot(xx, yy, 'k-', label="non weighted div")
 
+# points avec différentes couleurs
 plt.scatter(X[:, 0], X[:, 1], c = y)
 plt.legend()
 plt.show()

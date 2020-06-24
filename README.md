@@ -41,7 +41,7 @@ Les changements seront disponnibles dans la table user
 >> python nomFihchier
 les fichiers concernés sont : 
 	- kmeans_visi_agressitive.py
-#TODO
+	- svm_agr_visi.py
 Le graphique avec les clusters s'affichera.
 
 
