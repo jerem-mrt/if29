@@ -4,7 +4,6 @@ import pymongo
 from sklearn.cluster import DBSCAN
 from sklearn.preprocessing import scale
 
-
 # #############################################################################
 #Lien avec la collection user
 client = pymongo.MongoClient("mongodb://localhost:27017/");
@@ -12,24 +11,25 @@ db = client['if29'];
 user = db["user"];
 X=[]
 utilisateurs=[]
-for info in user.find({},{"agressivity":1, "_id":1, "visibilite_moy":1}):
-    x=[[info.get("agressivity"), info.get("visibilite_moy")]]
-    X=X+x
+cursor=user.find({},{"agressivity":1, "_id":1, "visibilite_moy":1},no_cursor_timeout=True).limit(5000)
+for info in cursor:
+    X.append([info["agressivity"],info["visibilite_moy"]])
+    
     #we want to keep the id of the user to put the labels back in mongoDB for a supervised algorithm
-    utilisateur=[info.get("_id")]
-    utilisateurs=utilisateurs+utilisateur
-X=np.array(X)
+    utilisateurs.append([info["_id"]])
+cursor.close()
 # #############################################################################
 # Compute DBSCAN
 db = DBSCAN(eps=0.2, min_samples=6).fit(X)             
 #Definition of the core points
 core_samples_mask = np.zeros_like(db.labels_, dtype=bool)
 core_samples_mask[db.core_sample_indices_] = True
+
 #label of the clusters
 labels = db.labels_
 for ind in range(len(labels)) :
-    utilisateur=int(utilisateurs[ind])
-    user.update_one({"_id": utilisateur},{"$set" :{"label_agr_visi" : int(labels[ind])}})
+##    utilisateur=int(utilisateurs[ind])
+    user.update_one({"_id": utilisateurs[ind]},{"$set" :{"label_agr_visi" : int(labels[ind])}})
 
 # Number of clusters in labels, ignoring noise if present.
 n_clusters_ = len(set(labels)) - (1 if -1 in labels else 0) 
@@ -39,6 +39,8 @@ print('Estimated number of clusters: %d' % n_clusters_)
 print('Estimated number of noise points: %d' % n_noise_)
 
 # #############################################################################
+
+
 # Plot result
 import matplotlib.pyplot as plt
 
@@ -53,10 +55,10 @@ for k, col in zip(unique_labels, colors):
         col = [0, 0, 0, 1]
         
     class_member_mask = (labels == k)
-
     xy = X[class_member_mask & core_samples_mask]
     plt.plot(xy[:, 0], xy[:, 1], 'o', markerfacecolor=tuple(col),
              markeredgecolor='k')
+
 
 #plotting graph
 plt.title('Estimated number of clusters: %d' % n_clusters_)

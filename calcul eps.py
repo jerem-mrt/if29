@@ -14,7 +14,7 @@ db = client['if29'];
 user = db["user"];
 
 # #############################################################################
-#Création de X
+#Creation de X
 X=[]
 for info in user.find({},{"agressivity":1, "_id":0, "visibilite_moy":1}):
     x=[[info.get("agressivity"), info.get("visibilite_moy")]]
