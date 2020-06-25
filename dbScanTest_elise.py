@@ -12,7 +12,7 @@ db=client.if29
 user = db["user"]
 X=[]
 utilisateurs=[]
-cursor=user.find({},{"agressivity":1, "_id":1, "visibilite_moy":1},no_cursor_timeout=True).limit(5000)
+cursor=user.find({},{"agressivity":1, "_id":1, "visibilite_moy":1},no_cursor_timeout=True)
 for info in cursor:
     X.append([info["agressivity"],info["visibilite_moy"]])
     

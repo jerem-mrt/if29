@@ -17,9 +17,10 @@ user = db["user"];
 #Creation de X
 X=[]
 for info in user.find({},{"agressivity":1, "_id":0, "visibilite_moy":1}):
-    x=[[info.get("agressivity"), info.get("visibilite_moy")]]
+    x=[[info["agressivity"], info["visibilite_moy"]]]
     X=X+x
 X=np.array(X)
+print ('fini')
 
 neigh = NearestNeighbors(n_neighbors=2)
 nbrs = neigh.fit(X)
