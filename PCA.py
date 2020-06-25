@@ -41,8 +41,12 @@ principalDf = principalDf[cols]
 print(principalDf)
 
 # Update de la base user
-for uti in principalDf:
-    db.user.update_one({"_id": uti}, {"$set": {"PC1": principalDf[uti]['principalComponent1'], "PC2": principalDf[uti]['principalComponent2']}})
+for uti in principalDf['id'].values:
+    pc1 = principalDf['principalComponent1'][principalDf['id']== uti].values[0]
+    pc1 = float(pc1)
+    pc2 = principalDf['principalComponent2'][principalDf['id']== uti].values[0]
+    pc2 = float(pc2)
+    db.user.update_one({"_id": int(uti)}, {"$set": {"PC1": pc1, "PC2": pc2}})
 
 """
 #Affichage
