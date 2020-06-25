@@ -8,21 +8,21 @@ from sklearn.decomposition import PCA
 client = pymongo.MongoClient("localhost", 27017)
 
 db = client.if29
-users = db.user.find()
+users = db.user.find().limit(10000)
 tabUser = []
 idTag = []
 
 # Récupération des variables analysées dans le tableau 'user'
 for x in users:
-    tabUser.append([x['visibilite_moy'], x['agressivity'], x['frequenceTweet'], x['nbFollowers'], x['outgoing_link'], x['mention_tweet'], x['nbComptesSuivis'], x['tag_tweet']])
+    tabUser.append([x['frequenceTweet'], x['nbFollowers'], x['outgoing_link'], x['mention_tweet'], x['nbComptesSuivis'], x['tag_tweet']])
     idTag.append([x['_id']])
 
 df = pd.DataFrame(data=tabUser)
 dfId = pd.DataFrame(data=idTag)
-df.columns = ['visibilite_moy', 'agressivity', 'frequenceTweet', 'nbFollower', 'outgoing_link', 'mention_tweet', 'nbComptesSuivis', 'tag_tweet']
+df.columns = ['frequenceTweet', 'nbFollower', 'outgoing_link', 'mention_tweet', 'nbComptesSuivis', 'tag_tweet']
 
 # Séparations des colonnes
-features = ['visibilite_moy', 'agressivity', 'frequenceTweet', 'nbFollower', 'outgoing_link', 'mention_tweet', 'nbComptesSuivis', 'tag_tweet']
+features = ['frequenceTweet', 'nbFollower', 'outgoing_link', 'mention_tweet', 'nbComptesSuivis', 'tag_tweet']
 
 x = df.loc[:, features].values
 x = StandardScaler().fit_transform(x)
@@ -46,7 +46,7 @@ for uti in principalDf['id'].values:
     pc1 = float(pc1)
     pc2 = principalDf['principalComponent2'][principalDf['id']== uti].values[0]
     pc2 = float(pc2)
-    db.user.update_one({"_id": int(uti)}, {"$set": {"PC1": pc1, "PC2": pc2}})
+    db.essai.insert_one({"_id": int(uti),"PC1": pc1, "PC2": pc2})
 
 """
 #Affichage

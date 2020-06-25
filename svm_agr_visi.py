@@ -11,10 +11,10 @@ user = db.user
 #stock de donnees (X : points, Y : labels)
 X= []
 y = []
-for info in user.find({"label_agr_visi": {"$exists":"true"}},{"agressivity":1, "_id":1, "visibilite_moy":1, "label_agr_visi":1}).limit(5000):
+for info in user.find().limit(5000):
     x=[[info.get("agressivity"), info.get("visibilite_moy")]]
     X=X+x
-    y.append(info.get("label_agr_visi"))
+    y.append(info.get("suspect"))
 #On converti X en np array pour mieux l'utiliser après
 X=np.array(X)
 y=np.array(y)
