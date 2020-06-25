@@ -14,15 +14,15 @@ idTag = []
 
 # Récupération des variables analysées dans le tableau 'user'
 for x in users:
-    tabUser.append([x['frequenceTweet'], x['nbFollowers'], x['outgoing_link'], x['mention_tweet'], x['nbComptesSuivis'], x['tag_tweet']])
+    tabUser.append([x['frequenceTweet'], x['nbFollowers'], x['outgoing_link'], x['mention_tweet'], x['nbComptesSuivis']])
     idTag.append([x['_id']])
 
 df = pd.DataFrame(data=tabUser)
 dfId = pd.DataFrame(data=idTag)
-df.columns = ['frequenceTweet', 'nbFollower', 'outgoing_link', 'mention_tweet', 'nbComptesSuivis', 'tag_tweet']
+df.columns = ['frequenceTweet', 'nbFollower', 'outgoing_link', 'mention_tweet', 'nbComptesSuivis']
 
 # Séparations des colonnes
-features = ['frequenceTweet', 'nbFollower', 'outgoing_link', 'mention_tweet', 'nbComptesSuivis', 'tag_tweet']
+features = ['frequenceTweet', 'nbFollower', 'outgoing_link', 'mention_tweet', 'nbComptesSuivis']
 
 x = df.loc[:, features].values
 x = StandardScaler().fit_transform(x)
@@ -46,6 +46,7 @@ for uti in principalDf['id'].values:
     pc1 = float(pc1)
     pc2 = principalDf['principalComponent2'][principalDf['id']== uti].values[0]
     pc2 = float(pc2)
+    db.essai.drop()
     db.essai.insert_one({"_id": int(uti),"PC1": pc1, "PC2": pc2})
 
 """
