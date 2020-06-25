@@ -17,17 +17,21 @@ for info in cursor:
     X.append([info["agressivity"],info["visibilite_moy"]])
     
     #we want to keep the id of the user to put the labels back in mongoDB for a supervised algorithm
-    utilisateurs.append([info["_id"]])
+    utilisateurs.append(info["_id"])
 cursor.close()
 # #############################################################################
 # Compute DBSCAN
-dbScan = DBSCAN(eps=0.2, min_samples=6).fit(X)             
+dbScan = DBSCAN(eps=0.5, min_samples=5).fit(X)             
 
 labels=dbScan.labels_
 
 # Number of clusters in labels, ignoring noise if present.
 n_clusters_ = len(set(labels)) - (1 if -1 in labels else 0) 
 n_noise_ = list(labels).count(-1)
+
+for ind in range(len(labels)) :
+    utilisateur=int(utilisateurs[ind])
+    user.update_one({"_id": utilisateur},{"$set" :{"label_agr_visi" : int(labels[ind])}})
 
 print('Estimated number of clusters: %d' % n_clusters_)
 print('Estimated number of noise points: %d' % n_noise_)
