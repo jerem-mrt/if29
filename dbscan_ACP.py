@@ -12,8 +12,8 @@ db = client['if29'];
 user = db["user"]; 
 X=[] 
 utilisateurs=[] 
-for info in user.find({"agressivity":{"$gt":0}, "visibilite_moy":{"$gt":0}},{"agressivity":1, "_id":1, "visibilite_moy":1}).limit(5000): 
-    x=[[info.get("agressivity"), info.get("visibilite_moy")]] 
+for info in user.find({}).limit(5000): 
+    x=[[info.get("PC1"), info.get("PC2")]] 
     X=X+x 
     #we want to keep the id of the user to put the labels back in mongoDB for a supervised algorithm 
     utilisateur=[info.get("_id")] 
