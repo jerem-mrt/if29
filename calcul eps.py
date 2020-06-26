@@ -1,11 +1,8 @@
 import numpy as np
-from sklearn.datasets.samples_generator import make_blobs
 from sklearn.neighbors import NearestNeighbors
-from sklearn.cluster import DBSCAN
 from matplotlib import pyplot as plt
 import pymongo
-import seaborn as sns
-sns.set()
+
 
 # #############################################################################
 #Lien avec la collection user
@@ -16,11 +13,10 @@ user = db["user"];
 # #############################################################################
 #Creation de X
 X=[]
-for info in user.find({},{"agressivity":1, "_id":0, "visibilite_moy":1}):
-    x=[[info["agressivity"], info["visibilite_moy"]]]
+for info in user.find({},{"PC1":1, "_id":0, "PC2":1}):
+    x=[[info["PC1"], info["PC2"]]]
     X=X+x
 X=np.array(X)
-print ('fini')
 
 neigh = NearestNeighbors(n_neighbors=2)
 nbrs = neigh.fit(X)
