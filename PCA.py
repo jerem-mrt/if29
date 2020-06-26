@@ -14,7 +14,7 @@ idTag = []
 
 # Récupération des variables analysées dans le tableau 'user'
 for x in users.find():
-    tabUser.append([x['visibilite_moy'], x['agressivity'], x['frequenceTweet'], x['nbFollowers'], x['outgoing_link'], x['mention_tweet'], x['nbComptesSuivis'], x['tag_tweet']])
+    tabUser.append([x['visibilite_moy'], x['agressivity'], x['frequenceTweet'], x['nbFollowers'], x['outgoing_link'], x['mention_tweet'], x['nbComptesSuivis'], x['tag_tweet'], x['nb_caractere']])
     idTag.append([x['_id']])
 
 ##df = pd.DataFrame(data=tabUser)
@@ -22,7 +22,7 @@ for x in users.find():
 ##df.columns = ['visibilite_moy', 'agressivity', 'frequenceTweet', 'nbFollower', 'outgoing_link', 'mention_tweet', 'nbComptesSuivis', 'tag_tweet']
 
 #Séparations des colonnes
-features = ['visibilite_moy', 'agressivity', 'frequenceTweet', 'nbFollower', 'outgoing_link', 'mention_tweet', 'nbComptesSuivis', 'tag_tweet']
+features = ['visibilite_moy', 'agressivity', 'frequenceTweet', 'nbFollower', 'outgoing_link', 'mention_tweet', 'nbComptesSuivis', 'tag_tweet', 'nb_caractere']
 ##
 x = tabUser#.loc[:, features].values
 x = StandardScaler().fit_transform(x)
@@ -42,12 +42,12 @@ principalComponents = pca.fit_transform(x)
 ##for y in range(len(idTag)):
 ##    principalDf.append([idTag[y],principalComponents[y][0],principalComponents[y][1]])
 ##
-print(principalComponents)
-
+##print(principalComponents)
 ##
-##pctempo = []
-
-# Update de la base user
+####
+####pctempo = []
+##
+### Update de la base user
 for uti in range(len(principalComponents)):
 ##    pc1 = principalDf['principalComponent1'][principalDf['id']== uti].values[0]
 ##    pc1 = float(pc1)
@@ -55,10 +55,12 @@ for uti in range(len(principalComponents)):
 ##    pc2 = float(pc2)
 ##    pctempo.append([uti, pc1, pc2])  
     #db.user.update_one({"_id": int(uti)}, {"$set": {"PC1": pc1, "PC2": pc2}})
-    if not users.find_one({"_id": idTag[uti][0]}):
-        db.users.insert_one({"_id": idTag[uti][0],"PC1": principalComponents[uti][0], "PC2": principalComponents[uti][1]})
+    if not users.find({"_id": idTag[uti][0]}):
+        users.insert_one({"_id": idTag[uti][0],"PC1": principalComponents[uti][0], "PC2": principalComponents[uti][1]})
+        print("pas trouvé")
     else :
-        db.users.update_one({"_id": idTag[uti][0]}, {"$set": {"PC1": principalComponents[uti][0], "PC2": principalComponents[uti][1]}})
+        users.update_one({"_id": idTag[uti][0]}, {"$set": {"PC1": principalComponents[uti][0], "PC2": principalComponents[uti][1]}})
+        #print("update" + str(idTag[uti][0]) + " PC1 " + str(principalComponents[uti][0]) + " PC2 " + str(principalComponents[uti][1]))
 
 
 #Affichage
