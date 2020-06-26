@@ -6,14 +6,15 @@ Ce projet permet de calculer différents indices (agressivité, visibilité, ...
 d'une base de données et de les répartir selon des clusters afin de séparer les tweets malveillants des autres.
 Pour ce faire, nous utilisons deux algorithmes : 
 	- k-means (non-supervisé)
+	- DBscan (non-supervié)
 	- SVM (supervisé)
 Nous faisons tout cela dans le but de comparer les deux algorithmes pour savoir quel est le plus adapté à la 
 situation donnée.
 
 
 UTILISATION : 
-1. Il faut avoir une base de données nommée IF29 avec une collection de tweets nommée tweet 
-et une autre nommée user qui sera remplie après.
+1. Il faut avoir une base de données MongoDB nommée IF29 avec une collection de tweets nommée "tweet" 
+et une autre nommée "user".
 
 2. Se placer dans le répertoir de travail
 
@@ -35,12 +36,19 @@ Les fichiers concernés sont :
 	- kmeans_visi_agressivite.py
 	- nbfollowers_nbprofilsSuivis_ratio.py
 	- visibilite.py
+	- outgoing_link.py
 Les changements seront disponnibles dans la table user 
 
-5. Afin d'appeler les deux alogrithmes de clustering écrivez dans la ligne de commande : 
+5. Pour représenter tous les indices dans un graphiques, nous utilisons l'ACP : 
+>> python PCA.py
+Vous verrez un chamgement dans la base MongoDB (les composantes principales PC1 et 
+PC2 ont été rajoutées).
+
+6. Afin d'appeler les deux alogrithmes de clustering écrivez dans la ligne de commande : 
 >> python nomFihchier
 les fichiers concernés sont : 
 	- kmeans_visi_agressitive.py
+	- dbscan_ACP.py
 	- svm_agr_visi.py
 Le graphique avec les clusters s'affichera.
 
