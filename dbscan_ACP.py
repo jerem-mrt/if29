@@ -22,7 +22,7 @@ for info in user.find({}).limit(5000):
 X=np.array(X) 
 # ############################################################################# 
 # Compute DBSCAN 
-db = DBSCAN(eps=0.1, min_samples=5).fit(X)              
+db = DBSCAN(eps=0.23, min_samples=5).fit(X)              
 #Definition of the core points 
 core_samples_mask = np.zeros_like(db.labels_, dtype=bool) 
 core_samples_mask[db.core_sample_indices_] = True 
