@@ -19,7 +19,7 @@ for info in user.find({"suspect" : {"$exists" : True}}, {"PC1":1,"PC2":1, "suspe
     X=X+x
     y.append(info.get("suspect"))
 
-print("Récupération données labelisées effectuée")
+print("Récupération des données labelisées effectuée")
 
 # On récolte les utilisateurs à prédire
 for info in user.find({"suspect" : {"$exists" : False}}, {"PC1":1,"PC2":1}):
@@ -54,7 +54,7 @@ plt.show()
 for utilisateur in range(len(aPredire)) :
     id = aPredire[utilisateur][2]
     if not user.find_one({"_id": id}):
-        a = 0
+        print("L'utilisateur " + id + " n'a pas été trouvé")
     else :
-        db.user.update_one({"_id" : id},{"$set": {"label_svm" : prediction[utilisateur]}})
+        db.user.update_one({"_id" : id},{"$set": {"label_svm" : int(prediction[utilisateur])}})
 
