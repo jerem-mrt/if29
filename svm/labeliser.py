@@ -8,7 +8,7 @@ db = client.if29
 essai = db.essai
 user = db.user
 labels = {}
-with open('old-id.json', 'r') as file:
+with open('ids-labelisses.json', 'r') as file:
         labels = json.load(file)
 
 for label in labels :
