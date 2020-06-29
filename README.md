@@ -1,22 +1,21 @@
-	README - Comparaison de deux mÃ©thodes de classification de profils de Twitter - Projet IF29
+	README - Comparaison de deux méthodes de classification de profils de Twitter - Projet IF29
 
 
 DESCRIPTION : 
-Ce projet permet de calculer diffÃ©rents indices (agressivitÃ©, visibilitÃ©, ...) qui caractÃ©risent des tweets 
-d'une base de donnÃ©es et de les rÃ©partir selon des clusters afin de sÃ©parer les tweets malveillants des autres.
+Ce projet permet de calculer différents indices (agressivité, visibilité, ...) qui caractérisent des tweets 
+d'une base de données et de les répartir selon des clusters afin de séparer les tweets malveillants des autres.
 Pour ce faire, nous utilisons deux algorithmes : 
-	- k-means (non-supervisÃ©)
-	- DBscan (non-superviÃ©)
-	- SVM (supervisÃ©)
-Nous faisons tout cela dans le but de comparer les deux algorithmes pour savoir quel est le plus adaptÃ© Ã  la 
-situation donnÃ©e.
+	- k-means (non-supervisé)
+	- DBscan (non-supervisé)
+	- SVM (supervisé)
+Nous faisons tout cela dans le but de comparer les deux algorithmes pour savoir quel est le plus adapté à la situation donnée.
 
 
 UTILISATION : 
-1. Il faut avoir une base de donnÃ©es MongoDB nommÃ©e IF29 avec une collection de tweets nommÃ©e "tweet" 
-et une autre nommÃ©e "user".
+1. Il faut avoir une base de données MongoDB nommée IF29 avec une collection de tweets nommée "tweet" 
+et une autre nommée "user".
 
-2. Se placer dans le rÃ©pertoir de travail
+2. Se placer dans le répertoire de travail
 
 3. Afin d'utiliser le code, il faut d'abord installer les modules suivants : 
 	- pymongo
@@ -25,33 +24,34 @@ et une autre nommÃ©e "user".
 	- datetime
 	- sklearn
 	- matplotlib
-Pour installer ces modules vous pouvez utiliser la commande suivante:
+Pour installer ces modules vous pouvez utiliser la commande suivante :
 >> pip install nomModule
 
-4. Pour calculer les indices Ã  analyser Ã©crivez dans la ligne de commande : 
+4. Pour calculer les indices à analyser écrivez dans la ligne de commande : 
 >> python nomFichier
-Les fichiers concernÃ©s sont : 
+Les fichiers concernés sont : 
 	- agressivite.py
 	- fonction_longueur_tweets.py
 	- kmeans_visi_agressivite.py
 	- nbfollowers_nbprofilsSuivis_ratio.py
 	- visibilite.py
 	- outgoing_link.py
-Les changements seront disponnibles dans la table user 
+Les changements seront disponibles dans la table user 
 
-5. Pour reprÃ©senter tous les indices dans un graphiques, nous utilisons l'ACP : 
+5. Pour représenter tous les indices dans un graphiques, nous utilisons l'ACP : 
 >> python PCA.py
-Vous verrez un chamgement dans la base MongoDB (les composantes principales PC1 et 
-PC2 ont Ã©tÃ© rajoutÃ©es).
+Il faut avoir calculé tous les indices avant de le lancer.
+Vous verrez un changement dans la base MongoDB (les composantes principales PC1 et 
+PC2 ont été rajoutées).
 
-6. Afin d'appeler les deux alogrithmes de clustering non suprevisÃ©s, Ã©crivez dans la ligne de commande : 
+6. Afin d'appeler les deux algorithmes de clustering non supervisés, écrivez dans la ligne de commande : 
 >> python nomFihchier
-les fichiers concernÃ©s sont : 
+les fichiers concernés sont : 
 	- kmeans_visi_agressitive.py
 	- dbscan_ACP.py
 Le graphique avec les clusters s'affichera.
 
-7. Pour appeler l'algorithme de clustering supervisÃ© il faut Ã©crire: 
+7. Pour appeler l'algorithme de clustering supervisé il faut écrire : 
 	>> python labeliser.py
 	>> python svm_agr_visi.py
 Le graphique avec les clusters s'affichera.
