@@ -1,0 +1,8 @@
+Figure 1: 
+x['frequenceTweet'], x['nbFollowers'], x['outgoing_link'], x['mention_tweet'], x['nbComptesSuivis']
+
+ a) eps: 0,1
+ b) eps: 0,5
+
+Figure 2:
+x['frequenceTweet'], x['frequenceFriends'], x['outgoing_link'], x['mention_tweet'], x['ratio']
