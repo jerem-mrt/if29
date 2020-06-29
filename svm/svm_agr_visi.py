@@ -23,15 +23,14 @@ print("Récupération des données labelisées effectuée")
 
 # On récolte les utilisateurs à prédire
 for info in user.find({"suspect" : {"$exists" : False}}, {"PC1":1,"PC2":1}):
-    arr=[[info.get("PC1"), info.get("PC2"), info.get("_id")]]
-    aPredire =aPredire+arr
+    aPredire.append([info.get("PC1"), info.get("PC2"), info.get("_id")])
 print("Récupération données effectuée")
 #On converti X en np array pour mieux l'utiliser après
 X=np.array(X)
 y=np.array(y)
 aPredire = np.array(aPredire)
 print("Array effectuées")
-#definition du calassifier
+#definition du classifier
 clf = svm.SVC(kernel='poly')
 clf.fit(X[:,(0,1)],y)
 print("Fit effectué")
@@ -46,8 +45,8 @@ print("Définition des coefficients")
 #yy = a * xx - clf.intercept_[0] / w[1]
 
 #séparateur
-#h0 = plt.plot(xx, yy, 'k-', label="non weighted div")
-# points avec différentes couleurs
+h0 = plt.plot(xx, yy, 'k-', label="non weighted div")
+#points avec différentes couleurs
 plt.scatter(XVisualisation[:, 0], XVisualisation[:, 1], c = yVisualisation )
 plt.legend()
 plt.show()
