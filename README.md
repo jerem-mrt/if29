@@ -44,15 +44,17 @@ Les changements seront disponnibles dans la table user
 Vous verrez un chamgement dans la base MongoDB (les composantes principales PC1 et 
 PC2 ont été rajoutées).
 
-6. Afin d'appeler les deux alogrithmes de clustering écrivez dans la ligne de commande : 
+6. Afin d'appeler les deux alogrithmes de clustering non suprevisés, écrivez dans la ligne de commande : 
 >> python nomFihchier
 les fichiers concernés sont : 
 	- kmeans_visi_agressitive.py
 	- dbscan_ACP.py
-	- svm_agr_visi.py
 Le graphique avec les clusters s'affichera.
 
-
+7. Pour appeler l'algorithme de clustering supervisé il faut écrire: 
+	>> python labeliser.py
+	>> python svm_agr_visi.py
+Le graphique avec les clusters s'affichera.
 
 
 
