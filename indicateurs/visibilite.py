@@ -18,9 +18,7 @@ float(taille_moy_tag)
 last_user=0
 moyenne_visibilite=0
 i=0
-##
-##pipeline=[{"$sort" : {"user.id" : 1}}]
-##liste = list(db.tweet.aggregate(pipeline,allowDiskUse=True))
+
 #On récupère l'ensempble des tweet
 tweets = db.tweet.find()
 

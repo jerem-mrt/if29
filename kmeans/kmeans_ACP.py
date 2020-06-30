@@ -21,24 +21,17 @@ for x in users :
     
 print('tableau rempli')
 
-### Create a normalizer: normalizer
-##normalizer = Normalizer()
-
-# Create a KMeans model with 10 clusters: kmeans
+# Create a KMeans model with n clusters: kmeans
 model = KMeans(n_clusters=5)
-
-### Make a pipeline chaining normalizer and kmeans: pipeline
-##pipeline = make_pipeline(normalizer,model)
-
 
 ### Fit pipeline to the daily price movements
 model.fit(tableau)
 
-##kmeans = model.fit(tableau)
+#associe les labels aux points
 labels = model.predict(tableau)
 
 print(model.inertia_)
-
+#créer et affiche le graphe
 xs = []
 ys = []
 for x in tableau:
