@@ -37,23 +37,19 @@ print("Fit effectué")
 prediction= clf.predict(aPredire[:, (0,1)])
 yVisualisation = np.append(y, prediction)
 XVisualisation = np.append(X[:, (0,1)], aPredire[:, (0,1)], axis=0)
-#on defini le separateur
-#w = clf.coef_[0]
-#a = -w[0] / w[1]
-print("Définition des coefficients")
-#xx = np.linspace(0,12)
-#yy = a * xx - clf.intercept_[0] / w[1]
 
-#séparateur
-h0 = plt.plot(xx, yy, 'k-', label="non weighted div")
+print("Définition des coefficients")
+
 #points avec différentes couleurs
 plt.scatter(XVisualisation[:, 0], XVisualisation[:, 1], c = yVisualisation )
 plt.legend()
 plt.show()
+n=0
 for utilisateur in range(len(aPredire)) :
     id = aPredire[utilisateur][2]
     if not user.find_one({"_id": id}):
-        print("L'utilisateur " + id + " n'a pas été trouvé")
+        #print("L'utilisateur " + str(id) + " n'a pas été trouvé")
+        n=n+1
     else :
         db.user.update_one({"_id" : id},{"$set": {"label_svm" : int(prediction[utilisateur])}})
 
