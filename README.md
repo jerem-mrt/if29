@@ -1,6 +1,7 @@
 	README - Comparaison de deux méthodes de classification de profils de Twitter - Projet IF29
 
 
+
 DESCRIPTION : 
 Ce projet permet de calculer différents indices (agressivité, visibilité, ...) qui caractérisent des tweets 
 d'une base de données et de les répartir selon des clusters afin de séparer les tweets malveillants des autres.
@@ -9,6 +10,9 @@ Pour ce faire, nous utilisons deux algorithmes :
 	- DBscan (non-supervisé)
 	- SVM (supervisé)
 Nous faisons tout cela dans le but de comparer les deux algorithmes pour savoir quel est le plus adapté à la situation donnée.
+
+
+
 
 
 UTILISATION : 
@@ -27,7 +31,7 @@ et une autre nommée "user".
 Pour installer ces modules vous pouvez utiliser la commande suivante :
 >> pip install nomModule
 
-4. Pour calculer les indices à analyser écrivez dans la ligne de commande : 
+4. Pour calculer les indices à analyser déplacez vous dans le dossier indicateur et écrivez dans la ligne de commande : 
 >> python nomFichier
 Les fichiers concernés sont : 
 	- agressivite.py
@@ -44,14 +48,16 @@ Il faut avoir calculé tous les indices avant de le lancer.
 Vous verrez un changement dans la base MongoDB (les composantes principales PC1 et 
 PC2 ont été rajoutées).
 
-6. Afin d'appeler les deux algorithmes de clustering non supervisés, écrivez dans la ligne de commande : 
+6. Afin d'appeler les deux algorithmes de clustering non supervisés, allez dans le repertoire correspondant 
+(dbscan ou kmeans) et écrivez dans la ligne de commande : 
 >> python nomFihchier
-les fichiers concernés sont : 
-	- kmeans_visi_agressitive.py
-	- dbscan_ACP.py
 Le graphique avec les clusters s'affichera.
+Si vous voulez d'abord savoir quel epsilon choisir avant de lancer le dbscan, lancez calcul_eps.py. 
 
-7. Pour appeler l'algorithme de clustering supervisé il faut écrire : 
+7. Pour appeler l'algorithme de clustering supervisé il faut d'abord labéliser une portion des individus : 
+	- allez dans le répertoire labels 
+	- écrivez : >> python swm_agr_visi.py
+Puis, aller dans le répetroire svm écrire : 
 	>> python labeliser.py
 	>> python svm_agr_visi.py
 Le graphique avec les clusters s'affichera.
