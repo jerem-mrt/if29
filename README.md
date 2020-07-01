@@ -48,7 +48,7 @@ Il faut avoir calculé tous les indices avant de le lancer.
 Vous verrez un changement dans la base MongoDB (les composantes principales PC1 et 
 PC2 ont été rajoutées).
 
-6. Afin d'appeler les deux algorithmes de clustering non supervisés, allez dans le repertoire correspondant 
+6. Afin d'appeler les deux algorithmes de clustering non supervisés, allez dans le répertoire correspondant 
 (dbscan ou kmeans) et écrivez dans la ligne de commande : 
 >> python nomFihchier
 Le graphique avec les clusters s'affichera.
@@ -57,7 +57,7 @@ Si vous voulez d'abord savoir quel epsilon choisir avant de lancer le dbscan, la
 7. Pour appeler l'algorithme de clustering supervisé il faut d'abord labéliser une portion des individus : 
 	- allez dans le répertoire labels 
 	- écrivez : >> python swm_agr_visi.py
-Puis, aller dans le répetroire svm écrire : 
+Puis, aller dans le répertoire svm écrire : 
 	>> python labeliser.py
 	>> python svm_agr_visi.py
 Le graphique avec les clusters s'affichera.
