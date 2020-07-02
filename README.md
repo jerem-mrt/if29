@@ -4,11 +4,11 @@
 DESCRIPTION : 
 Ce projet permet de calculer différents indices (agressivité, visibilité, ...) qui caractérisent des tweets 
 d'une base de données et de les répartir selon des clusters afin de séparer les tweets malveillants des autres.
-Pour ce faire, nous utilisons deux algorithmes : 
+Pour ce faire, nous utilisons trois algorithmes : 
 	- k-means (non-supervisé)
 	- DBscan (non-supervisé)
 	- SVM (supervisé)
-Nous faisons tout cela dans le but de comparer les deux algorithmes pour savoir quel est le plus adapté à la situation donnée.
+Nous faisons tout cela dans le but de comparer deux algorithmes pour savoir quel est le plus adapté à la situation donnée.
 
 
 UTILISATION : 
@@ -47,13 +47,13 @@ PC2 ont été rajoutées).
 6. Afin d'appeler les deux algorithmes de clustering non supervisés, écrivez dans la ligne de commande : 
 >> python nomFihchier
 les fichiers concernés sont : 
-	- kmeans_visi_agressitive.py
+	- kmeans_ACP.py
 	- dbscan_ACP.py
 Le graphique avec les clusters s'affichera.
 
 7. Pour appeler l'algorithme de clustering supervisé il faut écrire : 
 	>> python labeliser.py
-	>> python svm_agr_visi.py
+	>> python svm_ACP.py
 Le graphique avec les clusters s'affichera.
 
 

@@ -16,13 +16,13 @@ i=0
 #faire un tableau avec PC1 et PC2 et id user
 tableau=[]
 for x in users :
-    tableau.append([x.get("PC1"),x.get("PC2")])
+    tableau.append([x['PC1'],x['PC2']])
 
     
 print('tableau rempli')
 
 # Create a KMeans model with n clusters: kmeans
-model = KMeans(n_clusters=5)
+model = KMeans(n_clusters=3)
 
 ### Fit pipeline to the daily price movements
 model.fit(tableau)
